@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
     });
     socket.on('defuse', function (user) {
         io.emit('defuse', user);
-        io.emit('start game', user);
+        io.emit('startgame', user);
     });
     socket.on('location', function (data) {
         io.emit('location', data);
@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
         io.emit('success', user)
     })
     socket.on('fail', function (user) {
-        //save win in db
+        //save loss in db
         io.emit('fail', user)
     })
 });
