@@ -11,8 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
-    "socket.io": "^2.3.0",
     "fresh": ">=0.5.2",
-    "mime": ">=1.4.1"
+    "mime": ">=1.4.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^2.3.0"
   }
 }
