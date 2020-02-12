@@ -1,6 +1,16 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const mysql = require('mysql');
+
+//database
+let con = mysql.createPool({
+    host: process.env.HOST,
+    user: process.env.DBUSERNAME,
+    password: process.env.DBPASSWORD,
+    database: process.env.DATABASE,
+    multipleStatements: true
+});
 
 //http requests
 app.get('/', function (req, res) {
@@ -8,7 +18,17 @@ app.get('/', function (req, res) {
 });
 
 app.get('/leaderboard', function (req, res) {
-    res.send('Leaderboard');
+    let sql = `SELECT * FROM users`
+    con.query(sql, function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        if (results[0])
+            res.send(results);
+        else
+            res.send("-");
+    })
 })
 
 app.get('/current', function (req, res) {
