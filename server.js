@@ -21,6 +21,7 @@ const states = {
 let currentBomber = null;
 let currentState = states.PLANTING;
 let bombLocation;
+let defuser = null;
 
 //http requests
 app.get('/', function (req, res) {
@@ -94,25 +95,26 @@ io.on('connection', function (socket) {
         bombLocation = data;
         io.emit('install', data);
     });
-    socket.on('defuse', function (user) {
+    socket.on('defuse', function (data) {
         currentState = states.DEFUSING;
-        io.emit('defuse', user);
-        io.emit('startgame', user);
+        defuser = data.user;
+        io.emit('defuse', data);
+        io.emit('startgame', "");
     });
     socket.on('location', function (data) {
         io.emit('location', data);
     });
-    socket.on('success', function (user) {
+    socket.on('success', function (data) {
         //save win in db
         currentState = states.PLANTING;
-        currentBomber = user;
-        io.emit('success', user)
+        currentBomber = defuser;
+        io.emit('success', data)
     })
-    socket.on('fail', function (user) {
+    socket.on('fail', function (data) {
         //save loss in db
         currentState = states.PLANTING;
-        currentBomber = user;
-        io.emit('fail', user)
+        currentBomber = defuser;
+        io.emit('fail', data)
     })
 });
 
