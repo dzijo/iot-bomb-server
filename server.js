@@ -76,7 +76,11 @@ app.get('/deleteall', function (req, res) {
                 console.log(err);
                 return;
             }
+            res.send('Successfully deleted all users.');
         });
+    }
+    else {
+        res.send('Wrong pin.');
     }
 })
 
