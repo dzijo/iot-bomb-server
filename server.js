@@ -89,7 +89,7 @@ app.get('/deleteall', function (req, res) {
 io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('install', function (data) {
-        //console.log(`This is the location ${location}`);
+        console.log(`This is the data ${data}`);
         currentState = states.SEARCHING;
         bombLocation = JSON.parse(data);
         io.emit('install', data);
