@@ -56,12 +56,12 @@ app.get('/current', function (req, res) {
                     console.log(err);
                     return;
                 }
+                if (!currentBomber) {
+                    currentBomber = user;
+                }
+                res.send({ state: currentState, bomber: currentBomber, bombLocation: bombLocation });
             });
         }
-        if (!currentBomber) {
-            currentBomber = user;
-        }
-        res.send({ state: currentState, bomber: currentBomber, bombLocation: bombLocation });
     });
 
 })
