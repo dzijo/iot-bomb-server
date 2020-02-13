@@ -50,7 +50,6 @@ app.get('/current', function (req, res) {
             return;
         }
         if (!results[0]) {
-            currentBomber = user;
             let sql = `INSERT INTO users (username) VALUES ('${user}')`;
             con.query(sql, function (err, results, fields) {
                 if (err) {
@@ -89,11 +88,11 @@ app.get('/deleteall', function (req, res) {
 //socket
 io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('install', function (location) {
+    socket.on('install', function (data) {
         //console.log(`This is the location ${location}`);
         currentState = states.SEARCHING;
-        bombLocation = JSON.parse(location);
-        io.emit('install', location);
+        bombLocation = JSON.parse(data);
+        io.emit('install', data);
     });
     socket.on('defuse', function (user) {
         currentState = states.DEFUSING;
