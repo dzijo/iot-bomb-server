@@ -67,6 +67,19 @@ app.get('/current', function (req, res) {
 
 })
 
+app.get('/deleteall', function (req, res) {
+    const pin = req.query.pin;
+    if (pin === process.env.PIN) {
+        let sql = `DELETE FROM users`;
+        con.query(sql, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
+    }
+})
+
 //socket
 io.on('connection', function (socket) {
     console.log('a user connected');
