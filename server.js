@@ -49,8 +49,7 @@ app.get('/current', function (req, res) {
             console.log(err);
             return;
         }
-        res.send(results);
-        if (!results) {
+        if (!results[0]) {
             currentBomber = user;
             let sql = `INSERT INTO users (username) VALUES ('${user}')`;
             con.query(sql, function (err, results, fields) {
