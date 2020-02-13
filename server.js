@@ -29,7 +29,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/leaderboard', function (req, res) {
-    let sql = `SELECT username, wins - losses AS diff FROM users`
+    let sql = `SELECT username, wins - losses AS diff FROM users ORDER BY diff DESC`
     con.query(sql, function (err, results, fields) {
         if (err) {
             console.log(err);
