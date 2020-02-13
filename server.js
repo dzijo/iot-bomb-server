@@ -105,11 +105,13 @@ io.on('connection', function (socket) {
     socket.on('success', function (user) {
         //save win in db
         currentState = states.PLANTING;
+        currentBomber = user;
         io.emit('success', user)
     })
     socket.on('fail', function (user) {
         //save loss in db
         currentState = states.PLANTING;
+        currentBomber = user;
         io.emit('fail', user)
     })
 });
