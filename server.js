@@ -76,6 +76,8 @@ app.get('/deleteall', function (req, res) {
                 console.log(err);
                 return;
             }
+            bombLocation = {};
+            currentBomber = null;
             res.send('Successfully deleted all users.');
         });
     }
