@@ -58,6 +58,9 @@ app.get('/current', function (req, res) {
                 }
             });
         }
+        if (!currentBomber) {
+            currentBomber = user;
+        }
         res.send({ state: currentState, bomber: currentBomber });
     });
 
