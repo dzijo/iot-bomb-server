@@ -20,6 +20,7 @@ const states = {
 }
 let currentBomber;
 let currentState = states.PLANTING;
+let bombLocation = {};
 
 //http requests
 app.get('/', function (req, res) {
@@ -61,7 +62,7 @@ app.get('/current', function (req, res) {
         if (!currentBomber) {
             currentBomber = user;
         }
-        res.send({ state: currentState, bomber: currentBomber });
+        res.send({ state: currentState, bomber: currentBomber, bombLocation: bombLocation });
     });
 
 })
@@ -72,6 +73,7 @@ io.on('connection', function (socket) {
     socket.on('install', function (location) {
         //console.log(`This is the location ${location}`);
         currentState = states.SEARCHING;
+        bombLocation = location;
         io.emit('install', location);
     });
     socket.on('defuse', function (user) {
