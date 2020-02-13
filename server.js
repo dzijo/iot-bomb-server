@@ -20,7 +20,7 @@ const states = {
 }
 let currentBomber = null;
 let currentState = states.PLANTING;
-let bombLocation;
+let bombLocation = null;
 let defuser = null;
 
 //http requests
@@ -107,12 +107,14 @@ io.on('connection', function (socket) {
     socket.on('success', function (data) {
         //save win in db
         currentState = states.PLANTING;
+        bombLocation = null;
         currentBomber = defuser;
         io.emit('success', data)
     })
     socket.on('fail', function (data) {
         //save loss in db
         currentState = states.PLANTING;
+        bombLocation = null;
         currentBomber = defuser;
         io.emit('fail', data)
     })
