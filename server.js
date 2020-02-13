@@ -18,7 +18,7 @@ const states = {
     SEARCHING: "searching",
     DEFUSING: "defusing"
 }
-let currentBomber;
+let currentBomber = null;
 let currentState = states.PLANTING;
 let bombLocation = {};
 
