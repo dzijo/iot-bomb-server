@@ -99,7 +99,7 @@ io.on('connection', function (socket) {
         currentState = states.DEFUSING;
         defuser = data.user;
         io.emit('defuse', data);
-        io.emit('startgame', "");
+        io.emit('startgame', data);
     });
     socket.on('location', function (data) {
         io.emit('location', data);
