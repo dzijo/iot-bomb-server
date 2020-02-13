@@ -12,6 +12,15 @@ let con = mysql.createPool({
     multipleStatements: true
 });
 
+//state
+const states = {
+    PLANTING: "planting",
+    SEARCHING: "searching",
+    DEFUSING: "defusing"
+}
+let currentBomber;
+let currentState = states.PLANTING;
+
 //http requests
 app.get('/', function (req, res) {
     res.send('Hi');
@@ -32,18 +41,38 @@ app.get('/leaderboard', function (req, res) {
 })
 
 app.get('/current', function (req, res) {
-    let sql = `SELECT * FROM users WHERE `;
-    res.send(req.query.user);
+    const user = req.query.user
+    let sql = `SELECT * FROM users WHERE username = ${user}`;
+    con.query(sql, function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        if (!results) {
+            currentBomber = user;
+            let sql = `INSERT INTO users (username) VALUES ('${user}')`;
+            con.query(sql, function (err, results, fields) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
+        res.send({ state: currentState, bomber: currentBomber });
+    });
+
 })
 
 //socket
 io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('install', function (location) {
-        console.log(`This is the location ${location}`);
+        //console.log(`This is the location ${location}`);
+        currentState = states.SEARCHING;
         io.emit('install', location);
     });
     socket.on('defuse', function (user) {
+        currentState = states.DEFUSING;
         io.emit('defuse', user);
         io.emit('startgame', user);
     });
@@ -52,10 +81,12 @@ io.on('connection', function (socket) {
     });
     socket.on('success', function (user) {
         //save win in db
+        currentState = states.PLANTING;
         io.emit('success', user)
     })
     socket.on('fail', function (user) {
         //save loss in db
+        currentState = states.PLANTING;
         io.emit('fail', user)
     })
 });
