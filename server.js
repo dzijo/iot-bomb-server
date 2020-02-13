@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/leaderboard', function (req, res) {
-    let sql = `SELECT * FROM users`
+    let sql = `SELECT username, wins - losses AS diff FROM users`
     con.query(sql, function (err, results, fields) {
         if (err) {
             console.log(err);
@@ -27,12 +27,13 @@ app.get('/leaderboard', function (req, res) {
         if (results[0])
             res.send(results);
         else
-            res.send("-");
+            res.send([]);
     })
 })
 
 app.get('/current', function (req, res) {
-    res.send('Current')
+    let sql = `SELECT * FROM users WHERE `;
+    res.send(req.query.user);
 })
 
 //socket
@@ -59,6 +60,6 @@ io.on('connection', function (socket) {
     })
 });
 
-http.listen(process.env.PORT || 4000, function () {
-    console.log('listening on *:4000');
+http.listen(process.env.PORT || 3306, function () {
+    console.log('listening on *:3306');
 });
