@@ -20,7 +20,7 @@ const states = {
 }
 let currentBomber = null;
 let currentState = states.PLANTING;
-let bombLocation = {};
+let bombLocation;
 
 //http requests
 app.get('/', function (req, res) {
