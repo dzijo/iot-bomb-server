@@ -105,14 +105,26 @@ io.on('connection', function (socket) {
         io.emit('location', data);
     });
     socket.on('success', function (data) {
-        //save win in db
+        let sql = `UPDATE users SET wins = wins + 1 WHERE username = '${defuser}';`
+        con.query(sql, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
         currentState = states.PLANTING;
         bombLocation = undefined;
         currentBomber = defuser;
         io.emit('success', data)
     })
     socket.on('fail', function (data) {
-        //save loss in db
+        let sql = `UPDATE users SET losses = losses + 1 WHERE username = '${defuser}';`
+        con.query(sql, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
         currentState = states.PLANTING;
         bombLocation = undefined;
         currentBomber = defuser;
