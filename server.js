@@ -42,7 +42,7 @@ app.get('/leaderboard', function (req, res) {
 
 app.get('/current', function (req, res) {
     const user = req.query.user
-    let sql = `SELECT * FROM users WHERE username = ${user}`;
+    let sql = `SELECT * FROM users WHERE username = '${user}'`;
     con.query(sql, function (err, results, fields) {
         if (err) {
             console.log(err);
