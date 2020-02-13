@@ -91,7 +91,7 @@ io.on('connection', function (socket) {
     socket.on('install', function (data) {
         console.log(`This is the data ${data}`);
         currentState = states.SEARCHING;
-        bombLocation = JSON.parse(data);
+        bombLocation = data;
         io.emit('install', data);
     });
     socket.on('defuse', function (user) {
